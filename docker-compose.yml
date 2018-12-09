@@ -14,4 +14,4 @@ services:
     working_dir: /opt/app
     volumes:
       - .:/opt/app
-      - $HOME/.aws:/root/.aws:ro
+      - $HOME/.aws:/root/.aws:rw

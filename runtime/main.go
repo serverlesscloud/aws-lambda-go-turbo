@@ -8,12 +8,14 @@ import (
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/aws/aws-lambda-go/lambdacontext"
 )
 
-func processRequestResponse(requestBody []byte) (requestID string, responseBody []byte) {
+func processRequestResponse(requestBody []byte) (responseBody []byte) {
 	log.Printf("got response: %s", requestBody)
 
-	return "", nil
+	return nil
 }
 
 func main() {
@@ -26,12 +28,28 @@ func main() {
 	inocationNextURL := fmt.Sprintf("%s/invocation/next", runtimeAPIBase)
 
 	for {
-		resp, _ := netClient.Get(inocationNextURL)
-		invocationReq, _ := ioutil.ReadAll(resp.Body)
+		resp, err := netClient.Get(inocationNextURL)
+		if err != nil {
+			log.Fatalf("error getting next invocation: %s", err.Error())
+		}
 
-		requestID, invocationResp := processRequestResponse(invocationReq)
+		invocationReq, err := ioutil.ReadAll(resp.Body)
+		resp.Body.Close()
+		if err != nil {
+			log.Fatalf("error reading invocation body: %s", err.Error())
+		}
 
-		invocationResponseURL := fmt.Sprintf("%s/invocation/%s/response", runtimeAPIBase, requestID)
+		lc := &lambdacontext.LambdaContext{
+			AwsRequestID:       resp.Header.Get("Lambda-Runtime-Aws-Request-Id"),
+			InvokedFunctionArn: resp.Header.Get("Lambda-Runtime-Invoked-Function-Arn"),
+			Identity: lambdacontext.CognitoIdentity{
+				CognitoIdentityID: resp.Header.Get("Lambda-Runtime-Cognito-Identity"),
+			},
+		}
+
+		invocationResp := processRequestResponse(invocationReq)
+
+		invocationResponseURL := fmt.Sprintf("%s/invocation/%s/response", runtimeAPIBase, lc.AwsRequestID)
 		req, err := http.NewRequest("POST", invocationResponseURL, bytes.NewReader(invocationResp))
 		if err != nil {
 			log.Fatalf("error: %s", err.Error())

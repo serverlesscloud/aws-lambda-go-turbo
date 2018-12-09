@@ -42,20 +42,28 @@ _test: _deps
 
 _build: _deps
 	GOOS=linux go build -ldflags="-w -s" -o bin/bootstrap runtime/main.go
-	zip -1j $(ARTIFACT) bin/runtime
+	zip -1j $(ARTIFACT) bin/bootstrap
 
 _validate:
 	sam validate
 
-_package: $(ARTIFACT)
-	aws cloudformation package --template-file template.yml --s3-bucket $(DEPLOY_BUCKET) --output-template-file packaged.yml
+# _package: $(ARTIFACT)
+# 	aws cloudformation package --template-file template.yml --s3-bucket $(DEPLOY_BUCKET) --output-template-file packaged.yml
 
-_deploy: _package
-	aws cloudformation deploy \
-		--template-file ./packaged.yml \
-		--stack-name $(STACK_NAME) \
-		--capabilities CAPABILITY_IAM \
-		--no-fail-on-empty-changeset
+# _deploy: _package
+# 	aws cloudformation deploy \
+# 		--template-file ./packaged.yml \
+# 		--stack-name $(STACK_NAME) \
+# 		--capabilities CAPABILITY_IAM \
+# 		--no-fail-on-empty-changeset
+
+_deploy: $(ARTIFACT)
+	aws lambda create-function \
+		--function-name $(STACK_NAME) \
+		--zip-file fileb://$(ARTIFACT) \
+		--handler handler.Hello \
+		--runtime provided \
+		--role $(LAMBDA_ROLE)
 
 _describe: _assumeRole
 	aws cloudformation describe-stack-events --stack-name $(STACK_NAME)

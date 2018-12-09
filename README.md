@@ -5,9 +5,9 @@ Came about as a result of seeing the slightly dissapointing results in [Lambda P
 
 ## Features
 
-[X] Custom Runtime boostrapper
-[ ] AWS SAM Support
-[ ] Serverless Framework Support
+* [X] Custom Runtime boostrapper
+* [ ] AWS SAM Support
+* [ ] Serverless Framework Support
 [ ] Lambda Layers
 [ ] Use Go plugins for dyanmic linking
 
