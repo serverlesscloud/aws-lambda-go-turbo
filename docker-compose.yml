@@ -1,0 +1,17 @@
+version: '3.6'
+
+services:
+  build-go:
+    image: lambci/lambda:build-go1.x
+    env_file: .env
+    working_dir: /go/src/github.com/serverlesscloud/aws-lambda-go-turbo
+    volumes:
+      - .:/go/src/github.com/serverlesscloud/aws-lambda-go-turbo
+      - $HOME/.ssh:/root/.ssh:ro
+  aws:
+    image: contino/aws-cli:1.16.72
+    env_file: .env
+    working_dir: /opt/app
+    volumes:
+      - .:/opt/app
+      - $HOME/.aws:/root/.aws:ro

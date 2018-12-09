@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Custom Go Runtime
+Resources:
+  HelloWorld:
+    Properties:
+      CodeUri: s3://contino-yun-sam/c9ef2960853f6c769669ddf0271b0977
+      Description: Customer Go Runtime without RPC overhead
+      Handler: custom
+      MemorySize: 512
+      Policies:
+      - AWSLambdaRole
+      Runtime: Provided
+      Timeout: 10
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31

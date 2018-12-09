@@ -1,12 +1,12 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
-Description: Custom Go Runtime
+Description: Custom Runtime
 
 Resources:
   HelloWorld:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Description: Customer Go Runtime without RPC overhead
+      Description: Custom Runtime 
       Runtime: Provided
       CodeUri: .
       Handler: custom
@@ -14,5 +14,3 @@ Resources:
       Timeout: 10
       Policies: 
         - AWSLambdaRole
-      Environment:
-        Variables:
