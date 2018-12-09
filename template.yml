@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Custom Go Runtime
+
+Resources:
+  HelloWorld:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Description: Customer Go Runtime without RPC overhead
+      Runtime: Provided
+      CodeUri: .
+      Handler: custom
+      MemorySize: 512
+      Timeout: 10
+      Policies: 
+        - AWSLambdaRole
+      Environment:
+        Variables:
