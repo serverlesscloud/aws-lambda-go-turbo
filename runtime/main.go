@@ -21,7 +21,7 @@ func processRequestResponse(requestBody []byte) (responseBody []byte) {
 func main() {
 
 	netClient := &http.Client{
-		Timeout: time.Second * 5,
+		Timeout: time.Second * 10,
 	}
 
 	runtimeAPIBase := fmt.Sprintf("http://%s/2018-06-01/runtime", os.Getenv("AWS_LAMBDA_RUNTIME_API"))
