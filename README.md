@@ -6,7 +6,7 @@ Came about as a result of seeing the slightly dissapointing results in [Lambda P
 ## Features
 
 * [X] Custom Runtime boostrapper
-* [ ] AWS SAM Support
+* [ ] AWS SAM Support - pending https://github.com/aws/aws-cli/issues/3789
 * [ ] Serverless Framework Support
 * [ ] Lambda Layers
 * [ ] Use Go plugins for dynamic linking
