@@ -8,8 +8,8 @@ Came about as a result of seeing the slightly dissapointing results in [Lambda P
 * [X] Custom Runtime boostrapper
 * [ ] AWS SAM Support
 * [ ] Serverless Framework Support
-[ ] Lambda Layers
-[ ] Use Go plugins for dyanmic linking
+* [ ] Lambda Layers
+* [ ] Use Go plugins for dynamic linking
 
 ## History
 

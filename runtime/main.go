@@ -13,9 +13,7 @@ import (
 )
 
 func processRequestResponse(requestBody []byte) (responseBody []byte) {
-	log.Printf("got response: %s", requestBody)
-
-	return nil
+	return requestBody
 }
 
 func main() {
